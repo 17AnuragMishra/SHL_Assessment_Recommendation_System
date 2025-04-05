@@ -10,12 +10,13 @@ st.title("SHL Assessment Recommendation System")
 st.write("Enter a job query or JD URL to get tailored SHL assessment recommendations.")
 input_type = st.radio("Input Type:", ("Natural Language Query", "Job Description URL"))
 user_input = st.text_input("Enter your query or URL here:")
-"""
-    here we have to integrate two options -
-        1. JD using URL
-        2. Using input text box
-"""
+
 if st.button("Get Recommendations"):
+    """
+        here we have two options -
+            1. JD using URL
+            2. Using input text box
+    """
     if user_input:
         if input_type == "Natural Language Query":
             query = user_input
