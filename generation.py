@@ -16,12 +16,12 @@ class GenerationSystem:
                 max_duration = int(query.lower().split("max")[1].split("mins")[0].strip())
             except:
                 pass
-        filtered_df = retrieved_df[retrieved_df['DurationInt'] <= max_duration]
+        filtered_df = retrieved_df[retrieved_df['DurationInt'] <= max_duration].copy()
 
         prompt = f"""
         Given this query: '{query}'
         And these assessments:
-        {filtered_df[['Name', 'URL', 'Remote', 'Adaptive', 'Duration', 'Type']].to_string(index=False)}
+        {filtered_df[['Name', 'URL', 'Remote', 'Adaptive', 'DurationInt', 'Type']].to_string(index=False)}
         Recommend 1-10 assessments that best match the query. Return results in a table with:
         - Assessment Name (with URL as hyperlink, e.g., [Name](URL))
         - Remote Testing Support
@@ -38,10 +38,10 @@ class GenerationSystem:
         response = requests.post(f"{self.api_url}?key={self.api_key}", json=payload, headers=headers)
         if response.status_code == 200:
             result = response.json()['candidates'][0]['content']['parts'][0]['text']
-            return filtered_df.head(10)[['Name', 'URL', 'Remote', 'Adaptive', 'Duration', 'Type']]
+            return filtered_df.head(10)[['Name', 'URL', 'Remote', 'Adaptive', 'DurationInt', 'Type']]
         else:
             print(f"API Error: {response.text}")
-            return filtered_df.head(10)[['Name', 'URL', 'Remote', 'Adaptive', 'Duration', 'Type']]
+            return filtered_df.head(10)[['Name', 'URL', 'Remote', 'Adaptive', 'DurationInt', 'Type']]
 
 if __name__ == "__main__":
     GEMINI_API_KEY = "AIzaSyCX_pJFcPkH2-jyaHxdju7mK6dp_v3xC7k"

@@ -6,6 +6,7 @@ from rag_system import RAGSystem
 
 GEMINI_API_KEY = "AIzaSyCX_pJFcPkH2-jyaHxdju7mK6dp_v3xC7k"
 rag = RAGSystem(gemini_api_key=GEMINI_API_KEY)
+
 st.title("SHL Assessment Recommendation System")
 st.write("Enter a job query or JD URL to get tailored SHL assessment recommendations.")
 input_type = st.radio("Input Type:", ("Natural Language Query", "Job Description URL"))
@@ -13,9 +14,9 @@ user_input = st.text_input("Enter your query or URL here:")
 
 if st.button("Get Recommendations"):
     """
-        here we have two options -
-            1. JD using URL
-            2. Using input text box
+    Here we have two options -
+        1. JD using URL
+        2. Using input text box
     """
     if user_input:
         if input_type == "Natural Language Query":
@@ -39,12 +40,11 @@ if st.button("Get Recommendations"):
                     lambda row: f"[{row['Name']}]({row['URL']})", axis=1
                 )
                 st.write(f"Top {len(recommendations)} Recommended Assessments:")
-                st.table(recommendations[['Name', 'Remote', 'Adaptive', 'Duration', 'Type']])
+                st.table(recommendations[['Name', 'Remote', 'Adaptive', 'DurationInt', 'Type']])
     else:
         st.warning("Please enter a query or URL.")
 
 st.write("Hope you like my efforts, Built with Streamlit and SHL Product Catalog data.")
 
 if __name__ == "__main__":
-    # to Run write this command in the CLI - streamlit run web_app.py
     pass
